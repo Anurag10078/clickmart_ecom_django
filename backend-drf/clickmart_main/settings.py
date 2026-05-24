@@ -25,7 +25,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = config('DEBUG', default=False, cast=bool)
+DEBUG = config('DEBUG', cast=bool)
 
 ALLOWED_HOSTS = []
 
@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'api',
     'rest_framework',
     'users',
+    'products',
 ]
 
 MIDDLEWARE = [
@@ -135,3 +136,6 @@ STATIC_URL = 'static/'
 
 
 AUTH_USER_MODEL = 'users.User' #we need to tell django that we are using custom user model and we need to give the app name and model name in this format appname.modelname
+
+MEDIA_URL = '/media/' #we need to tell django where to save the media files and how to access them
+MEDIA_ROOT = BASE_DIR / 'media' #we need to tell django where to save the media files in the project directory
