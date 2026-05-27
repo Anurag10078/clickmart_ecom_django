@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/6.0/ref/settings/
 """
 
+from datetime import datetime
 from pathlib import Path
 from decouple import config
 
@@ -43,6 +44,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'users',
     'products',
+    'rest_framework_simplejwt',
 ]
 
 MIDDLEWARE = [
@@ -139,3 +141,18 @@ AUTH_USER_MODEL = 'users.User' #we need to tell django that we are using custom 
 
 MEDIA_URL = '/media/' #we need to tell django where to save the media files and how to access them
 MEDIA_ROOT = BASE_DIR / 'media' #we need to tell django where to save the media files in the project directory
+
+REST_FRAMEWORK = {
+    
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    )
+    #its one of the cofig of restframework 
+}
+from datetime import timedelta
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=5), #access token will be valid for 5 minutes
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=1), #refresh token will be valid for 1 day
+}

@@ -7,9 +7,13 @@ class UserRegisterSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True)
     class Meta:
         model = User 
-        fields = ['id','email','username','password']
-        
-    def Create(self, velidated_data):
-        user = User.objects.create_user(**velidated_data)
+        fields = ['id','email','username','password'] #this is the form user will fill to register
+    def create(self, validated_data):
+        user = User.objects.create_user(**validated_data) #star star means unpack whatever is coming 
+        return user        
     
-        return User        
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['id','email','username','first_name','last_name']
+        
