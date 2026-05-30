@@ -5,8 +5,20 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from products.models import Product
+from .models import Cart,CartItem
+from .serializer import CartSerializer
 
 # Create your views here.
+class CartListView(APIView):#here we want more control 
+    permission_classes = [IsAuthenticated]
+    def get(self,request):
+        cart, created = Cart.objects.get_or_create(user=request.user) #means get the cart or create the cart 
+        # if created: #crated is boolean
+        #     print('cart created')
+        serializer = CartSerializer(cart)
+        return Response(serializer.data)
+ 
+    
 class AddToCartView(APIView):
     permission_classes = [IsAuthenticated] #only authenticated users can add to cart
     
@@ -35,7 +47,7 @@ class ManageCartItemView(APIView):
     def patch(self,request,item_id):
             
         
-        if 'change' not in request.data:
+        if 'change' not in request.data: #chabge should be in request data and it should be either +1 or -1s
             return Response({'error':'Change is required'},status=status.HTTP_400_BAD_REQUEST)
         
         change = int(request.data.get('change'))
